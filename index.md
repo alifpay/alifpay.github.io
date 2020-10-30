@@ -1,37 +1,54 @@
-## Welcome to GitHub Pages
+### Общие принципы протокола
 
-You can use the [editor on GitHub](https://github.com/alifpay/alifpay.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+Взаимодействие Системы и провайдера строится в режиме "запрос-ответ", где инициатором запроса всегда является Система, а отвечающей стороной – провайдер.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Каждый платеж в Системе имеет уникальный идентификатор, который передается в каждом запросе. По этому идентификатору производится дальнейшая сверка взаиморасчетов и решение спорных вопросов.
 
-### Markdown
+При обработке запроса от Системы провайдер должен выполнить требуемую операцию, а затем передать в ответе Системе данные (если это требуется) и результат выполнения операции.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+
+## Требования к интерфейсу провайдера
+
+1. Интерфейс должен принимать запросы по протоколу HTTPS 
+
+2. Интерфейс должен обрабатывать параметры, передаваемые системой методам HTTP POST - в теле запроса в виде формате JSON в кодировке UTF-8.
+
+3. Интерфейс должен формировать ответ системе в формате JSON в кодировке UTF-8.
+
+4. Скорость ответа не должна превышать 60 секунд, в противном случае система разрывает соединение по таймауту. 
+
+5. Если предполагаемое количество платежей за услуги подключаемого провайдера, ожидается интенсивным (до 10 платежей в минуту и более), необходимо, чтобы интерфейс поддерживал многопоточную коммуникацию
+
+
+
+## Запрос check
+
+При получении запроса check провайдер должен проверить наличие в своей базе абонента с указанным идентификатором и выполнить внутренние проверки идентификатора в соответствии с принятой логикой пополнения лицевых счетов через платежные Системы.
+
+
 
 ```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+## Пример запроса
 
-- Bulleted
-- List
+POST 
+Accept: application/json
+Host: service.provider.com:443
+Content-type: application/json; charset=utf-8
 
-1. Numbered
-2. List
+{
+  "id": 12345132564875,
+  "action": "check",  
+  "account": "123000"
+}
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
+
+## Пример ответа
+
+{
+  "code": 302
+  "id": 12345132564875,
+}
+
 ```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/alifpay/alifpay.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
