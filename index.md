@@ -57,6 +57,7 @@ POST
 Accept: application/json
 Host: service.provider.com:443
 Content-type: application/json; charset=utf-8
+Authorization: VVNFUk5BTUU6UEFTU1dPUkQ=
 
 {
   "id": 12345132564875,
@@ -130,6 +131,7 @@ POST
 Accept: application/json
 Host: service.provider.com:443
 Content-type: application/json; charset=utf-8
+Authorization: VVNFUk5BTUU6UEFTU1dPUkQ=
 
 {
   "id": 12345132564875,
