@@ -223,3 +223,7 @@ Authorization: BASE64("Login:Password")
 520 |	Неизвестная ошибка 	                                |     Нет 	  |   + 	|  + 	|  +
 401 |	Авторизация не удалась 	                            |     Да  	  |   + 	|  + 	|  +
 
+
+## Example
+
+Golang sample: https://github.com/alifpay/providers
